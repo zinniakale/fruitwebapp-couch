@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html ng-app="dbsoria">
+	<head>
+		<title>DBsoria Fruits</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/font.css">
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/angular.min.js"></script>
+		<script type="text/javascript" src="js/angular-animate.min.js"></script>
+		<script type="text/javascript" src="js/dbhandler.js"></script>
+		<!-- // <script type="text/javascript" src="js/animation.js"></script> -->
+		<script type="text/javascript" src="js/index.js"></script>
+	</head>
+	<body ng-controller="bodyCtrl">
+		<div id="main" ng-cloak ng-class="fruitstand.viewOther">
+			<section id="viewPanel" class="viewPanel">
+				<div id="viewIntro" class="viewIntro" ng-class="{open: fruitstand.openFruitstand}">
+					<div id="introBg" class="introBg"></div>
+					<div id="text1">DBSORIA</div>
+					<div id="text2">fruits.</div>
+					<div id="openButton" ng-mouseover="fruitstand.openPacket = true" ng-mouseleave="fruitstand.openPacket = false" ng-class="{open: fruitstand.openPacket && !fruitstand.openFruitstand}" class="openButton" ng-click="fruitstand.openningFruitstand();">
+						<div id="text3" ng-if="!fruitstand.openFruitstand">Open Fruitstand</div>
+						<div id="flap" class="db-triangle" ng-class="{hoverMenu: fruitstand.openFruitstand, openMenu: fruitstand.openFruitstand && fruitstand.menuHovering}" ng-mouseover="fruitstand.menuHovering = true" ng-mouseleave="fruitstand.menuHovering = false">
+							<div id="menu" class="menu" ng-show="fruitstand.openFruitstand">
+								<div id="searchFruit">
+									<input type="text" id="search" name="search" placeholder="Search" ng-model="filter.query"/>
+								</div>
+								<div id="navs">
+									<span id="nav1" class="nav" ng-click="addNew();">
+										<div class="navButton db-add-circle"></div>
+										<div class="text6">New Fruit</div>
+									</span>
+									<span id="nav2" class="nav" ng-click="">
+										<div class="navButton db-cancel"></div>
+										<div class="text6">Exit App</div>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="viewPane">
+					<ul class="fruits">
+						<li class="fruit" ng-repeat="fruit in fruitstand.fruits | filter: filter.query | orderBy : 'name'" ng-click="selectFruit(fruit.id);" ng-class-odd="'odd'" ng-class-even="'even'">
+							<span class="name">{{ fruit.name | uppercase }}</span>
+							<span class="price">{{ "Php " + fruit.price }}</span>
+							<span class="quantity">{{ "x " + fruit.quantity }}</span>
+							<span class="distributor">{{ fruit.distributor }}</span>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section id="fruitInfo" ng-show="fruitstand.selectedFruit.selected">
+				<div id="info">
+					<div class="name" ng-mouseenter="fruitstand.nameHovering = true" ng-mouseleave="fruitstand.nameHovering = false" ng-click="fruitstand.showNameEdit = true">
+						{{ fruitstand.fruits[fruitstand.selectedFruit.index].name }}
+						<span class="db-new" ng-show="fruitstand.nameHovering"></span>
+						<input type="text" id="nameEdit" class="editForm" placeholder="Name" ng-model="fruitstand.editing.name" ng-class="{showNameEdit: fruitstand.showNameEdit}"/>
+					</div>
+					<div class="distributor" ng-mouseenter="fruitstand.distributorHovering = true" ng-mouseleave="fruitstand.distributorHovering = false" ng-click="fruitstand.showDistributorEdit = true">
+						{{ "distributor: " + fruitstand.fruits[fruitstand.selectedFruit.index].distributor }}
+						<span class="db-new" ng-show="fruitstand.distributorHovering"></span>
+						<input type="text" id="distributorEdit" class="editForm" placeholder="Distributor" ng-model="fruitstand.editing.distributor" ng-class="{showDistributorEdit: fruitstand.showDistributorEdit}"/>
+					</div>
+					<div class="price"ng-mouseenter="fruitstand.priceHovering = true" ng-mouseleave="fruitstand.priceHovering = false" ng-click="fruitstand.showPriceEdit = true">
+						{{ "price: Php " + fruitstand.fruits[fruitstand.selectedFruit.index].price }}
+						<span class="db-new" ng-show="fruitstand.priceHovering"></span>
+						<input type="text" id="priceEdit" class="editForm" placeholder="Price" ng-model="fruitstand.editing.price" ng-class="{showPriceEdit: fruitstand.showPriceEdit}"/>
+					</div>
+					<div class="quantity" ng-mouseenter="fruitstand.quantityHovering = true" ng-mouseleave="fruitstand.quantityHovering = false" ng-click="fruitstand.showQuantityEdit = true">
+						{{ "quantity: " + fruitstand.fruits[fruitstand.selectedFruit.index].quantity }}
+						<span class="db-new" ng-show="fruitstand.quantityHovering"></span>
+						<input type="text" id="quantityEdit" class="editForm" placeholder="Quantity" ng-model="fruitstand.editing.quantity" ng-class="{showQuantityEdit: fruitstand.showQuantityEdit}"/>
+					</div>
+					<div class="dateAdded" ng-mouseenter="fruitstand.dateAddedHovering = true" ng-mouseleave="fruitstand.dateAddedHovering = false">
+						{{ "date added: " + fruitstand.fruits[fruitstand.selectedFruit.index].dateAdded }}
+					</div>
+				</div>
+				<div id="infoMenu">
+					<span id="closeButton" ng-click="deselectFruit();">
+						<div class="infoButton db-left"></div>
+						<div class="text7">Close</div>
+					</span>
+					<span id="deleteButton" ng-click="deleteFruit();">
+						<div class="infoButton db-cancel" ></div>
+						<div class="text7">Remove fruit</div>
+					</span>
+					<span id="submitButton" ng-class="{disabled: (!fruitstand.showNameEdit && !fruitstand.showDistributorEdit && !fruitstand.showPriceEdit && !fruitstand.showQuantityEdit)}" ng-click="submitChanges();">
+						<div class="infoButton db-info"></div>
+						<div class="text7">Update fruit</div>
+					</span>
+				</div>
+				<div id="priceHistory">
+					Price History
+					<ul>
+						<li class="price" ng-repeat="price in fruitstand.fruits[fruitstand.selectedFruit.index].priceHistory | orderBy : -price.dateUpdated" ng-class-even="'even'" ng-class-odd="'odd'">
+							<span class="amount">{{ "Php " + price.amount }}</span>
+							<span class="dateUpdated">{{ price.dateUpdated }}</span>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section id="addFruit" ng-show="fruitstand.addNewFruit">
+				<div id="addInfo">
+					<div class="name">
+						<input type="text" id="nameAdd" class="addForm" placeholder="Name" ng-model="fruitstand.adding.name"/>
+					</div>
+					<div class="distributor">
+						<input type="text" id="distributorAdd" class="addForm" placeholder="Distributor" ng-model="fruitstand.adding.distributor"/>
+					</div>
+					<div class="price">
+						<input type="text" id="priceAdd" class="addForm" placeholder="Price" ng-model="fruitstand.adding.price"/>
+					</div>
+					<div class="quantity">
+						<input type="text" id="quantityAdd" class="addForm" placeholder="Quantity" ng-model="fruitstand.adding.quantity"/>
+					</div>
+				</div>
+				<div id="addMenu">
+					<span id="closeButton" ng-click="cancelAdd();">
+						<div class="addButton db-left"></div>
+						<div class="text7">Close</div>
+					</span>
+					<span id="submitButton" ng-click="submitAdding();">
+						<div class="addButton db-info"></div>
+						<div class="text7">Add fruit</div>
+					</span>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,586 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: #cfd8dc;
+	font-family: 'Geometria-Light';
+}
+
+#viewPanel {
+	width: 50%;
+	min-width: 550px;
+	height: 90%;
+	background: white;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+	position: absolute;
+	left: calc((100% - 50%)/2);
+	top: calc((100% - 90%)/2);
+	-webkit-perspective: 700px;
+	-webkit-perspective-origin: 50% 50%;
+	-webkit-transform-style: preserve-3d;
+	z-index: 10;
+	-webkit-transition: left 0.5s ease-in-out;
+}
+
+#viewIntro {
+	width: 100%;
+	height: 100%;
+	background: #00E676;
+	/*background-image: url(../img/bg.jpg);*/
+	/*background-size: cover;*/
+	position: absolute;
+	-webkit-transform-origin: top;
+	-webkit-transform: rotateX(0deg);
+	/*-webkit-transition: 0.7s height ease-in-out;*/
+	-webkit-transform-style: preserve-3d;
+	-webkit-transition: height 0.7s ease-in-out;
+	z-index: 30;
+}
+
+#viewIntro > * {
+	display: block;
+	font-family: 'Geometria-Light';
+	font-weight: bold;
+	color: #ffffff;
+}
+
+#viewIntro #introBg {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-image: url(../img/bg.jpg);
+	background-size: cover;
+	opacity: 1;
+	-webkit-transition: opacity 0.7s ease-in-out;
+}
+
+#viewIntro #text1 {
+	font-size: 7em;
+	position: relative;
+	padding-left: 20px;
+	padding-top: 0;
+	top: 5px;
+	text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+	z-index: 32;
+	margin-top: 0px;
+	-webkit-transition: font-size 0.5s ease-in-out, margin-top 0.7s ease-in-out, font-size 0.7s ease-in-out;
+}
+
+#viewIntro #text2 {
+	font-size: 4em;
+	position: relative;
+	padding-left: 28px;
+	text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+	z-index: 32;
+	top: 0px;
+	-webkit-transition: font-size 0.5s ease-in-out, padding 0.7s ease-in-out, top 0.7s ease-in-out;
+}
+
+#viewIntro #openButton {
+	position: absolute;
+	width: 100%;
+	height: 80px;
+	background: #ffffff;
+	bottom: 0;
+	left: 0;
+	cursor: pointer;
+	opacity: 1;
+	-webkit-transition: height 0.7s ease-in-out;
+}
+
+#openButton #text3 {
+	color: black;
+	font-size: 1.5em;
+	text-align: center;
+	line-height: 80px;
+}
+
+#openButton #flap {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: #00E676;
+	top: 0;
+	right: 0;
+	-webkit-transform-origin: top;
+	font-size: 3.5em;
+	color: #ffffff;
+	line-height: 80px;
+	-webkit-transform: rotateX(0deg);
+	-webkit-transition: -webkit-transform 0.3s ease-in-out, line-height 0.7s ease-in-out, font-size 0.7s ease-in-out;
+	text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+	box-sizing: border-box;
+	text-align: center;
+	/*border: 1px solid black;*/
+}
+
+#openButton.open #flap {
+	-webkit-transform: rotateX(160deg);
+}
+
+#viewIntro.open-add,
+#viewIntro.open {
+	height: 100px;
+}
+
+#viewIntro.open-add #introBg,
+#viewIntro.open #introBg {
+	opacity: 0;
+}
+
+#viewIntro.open-add #text1,
+#viewIntro.open #text1 {
+	font-size: 2.3em;
+	margin-top: 10px;
+}
+
+#viewIntro.open-add #text2,
+#viewIntro.open #text2 {
+	font-size: 1.3em;
+	padding-left: 23px;
+}
+
+#viewIntro.open-add #openButton,
+#viewIntro.open #openButton {
+	height: 100%;
+	cursor: default;
+}
+
+#viewIntro.open-add #openButton #flap,
+#viewIntro.open #openButton #flap {
+	font-size: 3em;
+	line-height: 100px;
+	cursor: pointer;
+	z-index: 33;
+}
+
+#openButton #flap.hoverMenu.openMenu {
+	background: #00C853;
+}
+
+#openButton #flap.hoverMenu #menu {
+	width: 0px;
+	height: 0px;
+	/*background: #00C853;*/
+	background: #00e676;
+	position: absolute;
+	top: 80px;
+	right: 50px;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+	-webkit-transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+	overflow: hidden;
+	font-family: 'Geometria-Light';
+}
+
+#openButton #flap.hoverMenu #menu #searchFruit {
+	position: relative;
+	width: 100%;
+	height: 70px;
+}
+
+#openButton #flap.hoverMenu #menu #searchFruit #search {
+	font-family: 'Geometria-Light';
+	width: 100%;
+	height: 100%;
+	font-size: 0.7em;
+	padding: 10px 20px;
+	border: none;
+	outline: none;
+	border-bottom: 2px solid white;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	left: 0;
+}
+
+#openButton #flap.hoverMenu #menu #navs {
+	width: 100%;
+	height: calc(100% - 70px);
+	bottom: 0;
+	position: relative;
+	padding: 0px 30px 10px 30px;
+}
+
+#openButton #flap.hoverMenu #menu #navs .nav {
+	position: relative;
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+#openButton #flap.hoverMenu #menu #navs .nav .navButton {
+	width: 100%;
+	height: 50%;
+	line-height: 80px;
+	/*border: 1px solid black;*/
+	font-size: 1em;
+	color: black;
+}
+
+#openButton #flap.hoverMenu #menu #navs .nav .navButton:hover {
+	color: white;
+}
+
+#openButton #flap.hoverMenu #menu #navs .nav .text6 {
+	font-size: 0.3em;
+	width: 100%;
+	height: 50%;
+	/*border: 1px solid black;*/
+	line-height: 60px;
+}
+
+#openButton #flap.hoverMenu.openMenu #menu {
+	width: 300px;
+	height: 180px;
+}
+
+#viewPane {
+	width: calc(100% - 20px);
+	height: calc(100% - 120px);
+	overflow-y: scroll;
+	overflow-x: hidden;
+	margin: 10px;
+	position: absolute;
+	bottom: 0;
+	z-index: 20;
+}
+
+#viewPane ul.fruits {
+	list-style: none;
+	width: calc(100% - 10px);
+	height: 100%;
+}
+
+#viewPane ul.fruits .fruit {
+	width: 100%;
+	height: 40px;
+	cursor: pointer;
+	font-family: 'Geometria-Light';
+	position: relative;
+}
+
+#viewPane ul.fruits .fruit * {
+	position: absolute;
+	line-height: 40px;
+}
+
+#viewPane ul.fruits .fruit.odd {
+	background: #E8F5E9;
+}
+
+#viewPane ul.fruits .fruit:hover {
+	background: #00C853;
+}
+
+#viewPane ul.fruits .fruit .name {
+	font-size: 0.9em;
+	left: 40px;
+}
+
+#viewPane ul.fruits .fruit .price {
+	font-size: 1em;
+	font-weight: bold;
+	left: 235px;
+	text-align: right;
+}
+
+#viewPane ul.fruits .fruit .quantity {
+	left: 320px;
+}
+
+#viewPane ul.fruits .fruit .distributor {
+	left: 440px;
+}
+
+#viewPane ul.fruits .fruit .remove {
+	position: absolute;
+	width: 45px;
+	height: 40px;
+	right: 0px;
+	line-height: 40px;
+	font-size: 1.5em;
+	text-align: center;
+	color: #00e676;
+	text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+#fruitInfo {
+	width: 25%;
+	min-width: 200px;
+	height: 90%;
+	background: #ffffff;
+	position: absolute;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+	right: calc((100% - 25%)/2);
+	top: calc((100% - 90%)/2);
+	z-index: 5;
+	-webkit-transition: right 0.5s ease-in-out;
+}
+
+#fruitInfo #info {
+	width: 100%;
+	height: 200px;
+	background: #E8F5E9;
+	color: black;
+	padding-top: 20px;
+	overflow: hidden;
+}
+
+#fruitInfo #info div {
+	padding-left: 20px;
+	cursor: pointer;
+	position: relative;
+	/*border: 1px solid black;*/
+}
+
+#fruitInfo #info .name {
+	font-size: 1.5em;
+	line-height: 50px;
+	font-weight: bold;
+}
+
+#fruitInfo #info .distributor,
+#fruitInfo #info .price, 
+#fruitInfo #info .quantity,
+#fruitInfo #info .dateAdded
+{
+	line-height: 30px;
+}
+
+#fruitInfo #info .dateAdded {
+	cursor: default;
+}
+
+#fruitInfo #info > div > span {
+	float: right;
+	margin-right: 20px;
+	position: relative;
+}
+
+#fruitInfo #info .name #nameEdit {
+	width: 100%;
+	height: 50px;
+	position: absolute;
+	right: -100%;
+	border: none;
+	outline: none;
+	font-family: 'Geometria-Light';
+	font-size: 1.1em;
+	padding-left: 20px;
+	-webkit-transition: right 0.1s ease-in-out;
+}
+
+#fruitInfo #info .distributor #distributorEdit,
+#fruitInfo #info .price #priceEdit,
+#fruitInfo #info .quantity #quantityEdit {
+	width: 100%;
+	height: 30px;
+	position: absolute;
+	right: -100%;
+	top: 0;
+	border: none;
+	outline: none;
+	font-family: 'Geometria-Light';
+	font-size: 1em;
+	padding-left: 20px;
+	-webkit-transition: right 0.1s ease-in-out;
+}
+
+#fruitInfo #infoMenu {
+	position: relative;
+	width: 100%;
+	height: 90px;
+	padding: 0 20px;
+	background: #00e676;
+}
+
+#fruitInfo #infoMenu > span {
+	width: calc(100%/3);
+	height: 100%;
+	position: relative;
+	float: left;
+	cursor: pointer;
+}
+
+#fruitInfo #infoMenu .infoButton {
+	width: 100%;
+	font-size: 2.5em;
+	height: 50%;
+	line-height: 60px;
+	text-align: center;
+}
+
+#fruitInfo #infoMenu > span:not(.disabled) .infoButton:hover {
+	color: white;
+}
+
+#fruitInfo #infoMenu .text7 {
+	width: 100%;
+	height: 50%;
+	text-align: center;
+	font-weight: 0.2em;
+	line-height: 40px;
+	font-size: 0.7em;
+}
+
+#fruitInfo #infoMenu  > span.disabled {
+	color: #9e9e9e;
+	cursor: default;
+}
+
+#fruitInfo #priceHistory {
+	width: 100%;
+	height: calc(100% - 90px - 200px);
+	position: relative;
+	padding: 20px;
+}
+
+#fruitInfo #priceHistory ul {
+	width: 100%;
+	height: calc(100% - 30px);
+	overflow-y: scroll;
+	overflow-x: hidden;
+	list-style: none;
+	padding-right: 10px;
+	margin-top: 10px;
+}
+
+#fruitInfo #priceHistory ul .price {
+	height: 40px;
+	width: 100%;
+	line-height: 40px;
+}
+
+#fruitInfo #priceHistory ul .price.odd {
+	background: #E8F5E9;
+}
+
+#fruitInfo #priceHistory ul .price .amount {
+	font-weight: bold;
+}
+
+#fruitInfo #priceHistory ul .price .dateUpdated {
+	float: right;
+	font-size: 0.8em;
+}
+
+#fruitInfo #info .name #nameEdit.showNameEdit,
+#fruitInfo #info .distributor #distributorEdit.showDistributorEdit, 
+#fruitInfo #info .price #priceEdit.showPriceEdit, 
+#fruitInfo #info .quantity #quantityEdit.showQuantityEdit {
+	right: 0;
+}
+
+#addFruit {
+	width: 25%;
+	min-width: 200px;
+	height: 48%;
+	background: #ffffff;
+	position: absolute;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+	right: calc((100% - 25%)/2);
+	top: calc((100% - 90%)/2);
+	z-index: 5;
+	-webkit-transition: right 0.5s ease-in-out;
+}
+
+#addFruit #addInfo {
+	width: 100%;
+	height: 220px;
+	background: #E8F5E9;
+	color: black;
+	padding-top: 20px;
+}
+
+#addFruit #addInfo .name {
+	font-size: 1.5em;
+	line-height: 50px;
+	font-weight: bold;
+}
+
+#addFruit #addInfo .distributor,
+#addFruit #addInfo .price,
+#addFruit #addInfo .quantity {
+	line-height: 30px;
+}
+
+#addFruit #addInfo input {
+	width: 100%;
+	height: 50px;
+	right: 0;
+	border: none;
+	outline: none;
+	font-family: 'Geometria-Light';
+	font-size: 1.1em;
+	padding-left: 20px;
+	-webkit-transition: right 0.1s ease-in-out;
+}
+
+#addFruit #addMenu {
+	position: relative;
+	width: 100%;
+	height: 90px;
+	padding: 0 40px;
+	background: #00e676;
+}
+
+#addFruit #addMenu > span {
+	width: calc(100%/2);
+	height: 100%;
+	position: relative;
+	float: left;
+	cursor: pointer;
+}
+
+#addFruit #addMenu .addButton {
+	width: 100%;
+	font-size: 3em;
+	height: 50%;
+	line-height: 60px;
+	text-align: center;
+}
+
+#addFruit #addMenu .text7 {
+	width: 100%;
+	height: 50%;
+	text-align: center;
+	font-weight: 0.2em;
+	line-height: 40px;
+	font-size: 0.7em;
+}
+
+#addFruit #addMenu > span:not(.disabled) .addButton:hover {
+	color: white;
+}
+
+#main.viewInfo #viewPanel {
+	left: calc((49% - 27%)/2);
+}
+
+#main.viewInfo #fruitInfo {
+	right: calc((49% - 27%)/2);
+}
+
+#main.viewAdd #viewPanel {
+	left: calc((49% - 27%)/2);
+}
+
+#main.viewAdd #addFruit {
+	right: calc((49% - 27%)/2);
+}
+
+@media screen and (max-width:1100px) {
+	/*#main.viewInfo #viewPanel {
+		left: calc((60% - 30%)/2);
+	}
+
+	#main.viewInfo #fruitInfo {
+		right: calc((60% - 30%)/2);
+	}*/
+}
