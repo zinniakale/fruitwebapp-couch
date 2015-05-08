@@ -95,7 +95,7 @@
 					Price History
 					<ul>
 						<li class="price" ng-repeat="price in fruitstand.fruits[fruitstand.selectedFruit.index].priceHistory | orderBy : -price.dateUpdated" ng-class-even="'even'" ng-class-odd="'odd'">
-							<span class="amount">{{ "Php " + price.amount }}</span>
+							<span class="amount">{{ "Php " + price.price }}</span>
 							<span class="dateUpdated">{{ price.dateUpdated }}</span>
 						</li>
 					</ul>
