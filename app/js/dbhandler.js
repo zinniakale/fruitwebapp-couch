@@ -65,13 +65,29 @@ DBHandler.prototype = {
 				break;
 		}		
 	},
-	deleteData: function(id) {
+	deleteData: function(id, priceids) {
 		switch(this.define.dbms) {
 			case 'mysql':
 				break;
 			case 'mongodb':
 				break;
 			case 'couchdb':
+				var deleting = {
+					id: id,
+					priceids: priceids
+				};
+
+				$.ajax({
+					url: this.define.serverUrl,
+					type: 'POST',
+					data: {
+						func: 'deleteData',
+						data: JSON.stringify(deleting)
+					},
+					success: function(data) {
+						console.log(data);
+					}
+				})
 				break;
 		}	
 	},
@@ -92,7 +108,7 @@ DBHandler.prototype = {
 					dateAdded: add.dateAdded,
 					priceHistory: {
 						price: price,
-						dateUpdated: add.priceHistory.dateUpdated
+						dateUpdated: add.priceHistory[0].dateUpdated
 					}
 				};
 
@@ -104,7 +120,8 @@ DBHandler.prototype = {
 						data: JSON.stringify(data)
 					},
 					success: function(data) {
-						callback(data);
+						var result = JSON.parse(data);
+						callback(result);
 					}
 				});
 				break;

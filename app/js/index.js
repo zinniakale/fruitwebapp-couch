@@ -13,8 +13,8 @@ var app = angular.module('dbsoria', ['ngAnimate'])
 		dbHandler.updateData(id, data);
 	};
 
-	fruitFactory.deleteData = function(id) {
-		dbHandler.deleteData(id);
+	fruitFactory.deleteData = function(id, priceids) {
+		dbHandler.deleteData(id, priceids);
 	};
 
 	fruitFactory.addData = function(data, callback) {
@@ -141,9 +141,10 @@ var app = angular.module('dbsoria', ['ngAnimate'])
 
 		var index = $scope.fruitstand.selectedFruit.index;
 		var removed = $scope.fruitstand.fruits.splice(index, 1);
-		
-		fruitFactory.deleteData($scope.fruitstand.selectedFruit.id);
-		// $scope.$apply();
+		var priceids = [];
+		for(var i in removed[0].priceHistory) priceids.push(removed[0].priceHistory[i].id);
+
+		fruitFactory.deleteData($scope.fruitstand.selectedFruit.id, priceids);
 	}
 
 	$scope.addNew = function() {
@@ -153,14 +154,12 @@ var app = angular.module('dbsoria', ['ngAnimate'])
 		}
 		$scope.fruitstand.addNewFruit = true;
 		$scope.fruitstand.viewOther = "viewAdd";
-		// $scope.$apply();
 	}
 
 	$scope.cancelAdd = function() {
 		$scope.fruitstand.adding = {};
 		$scope.fruitstand.addNewFruit = false;
 		$scope.fruitstand.viewOther = "";
-		// $scope.$apply();
 	}
 
 	$scope.submitAdding = function() {
@@ -178,18 +177,23 @@ var app = angular.module('dbsoria', ['ngAnimate'])
 		var price = $scope.fruitstand.adding.price;
 		$scope.fruitstand.adding.price = ((price).indexOf('.') == -1)? price + ".00" : price;
 		$scope.fruitstand.adding.dateAdded = curr;
-		$scope.fruitstand.adding.priceHistory = {
+		$scope.fruitstand.adding.priceHistory = [{
 			price: $scope.fruitstand.adding.price,
 			dateUpdated: curr
-		};
-		fruitFactory.addData($scope.fruitstand.adding, function(newId) {
-			$scope.fruitstand.adding.id = newId;
+		}];
+		fruitFactory.addData($scope.fruitstand.adding, function(newIds) {
+			$scope.fruitstand.adding.id = newIds.fruitid;
+			$scope.fruitstand.adding.priceHistory[0].id = newIds.priceid
 			var newFruit = $.extend(true, {}, $scope.fruitstand.adding);
 			console.log(newFruit);
 			$scope.fruitstand.fruits.push(newFruit);
 			$scope.fruitstand.adding = {};
 			$scope.$apply();
 		});
+	}
+
+	$scope.exitApp = function() {
+		
 	}
 })
 .animation('.viewIntro', function() {
