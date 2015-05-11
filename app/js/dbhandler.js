@@ -8,8 +8,6 @@ DBHandler.prototype = {
 			case 'mysql':
 				this.define.dbms = 'mysql';
 				this.define.serverUrl = 'http://localhost/cmsc191_exer6/mysql/index.php';
-				this.define.user = "root";
-				this.define.pword = "";
 				break;
 			case 'mongodb':
 				this.define.dbms = 'mongodb';
@@ -24,6 +22,7 @@ DBHandler.prototype = {
 	getData: function(callback) {
 		switch(this.define.dbms) {
 			case 'mysql':
+
 				break;
 			case 'mongodb':
 				break;
@@ -45,6 +44,7 @@ DBHandler.prototype = {
 	updateData: function(id, data) {
 		switch(this.define.dbms) {
 			case 'mysql':
+
 				break;
 			case 'mongodb':
 				break;
@@ -68,6 +68,7 @@ DBHandler.prototype = {
 	deleteData: function(id, priceids) {
 		switch(this.define.dbms) {
 			case 'mysql':
+
 				break;
 			case 'mongodb':
 				break;
@@ -94,6 +95,7 @@ DBHandler.prototype = {
 	addData: function(add, callback) {
 		switch(this.define.dbms) {
 			case 'mysql':
+
 				break;
 			case 'mongodb':
 				break;
