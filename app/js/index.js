@@ -9,8 +9,8 @@ var app = angular.module('dbsoria', ['ngAnimate'])
 		return dbHandler.getData(callback);
 	};
 
-	fruitFactory.updateData = function(id, data) {
-		dbHandler.updateData(id, data);
+	fruitFactory.updateData = function(id, data, callback) {
+		dbHandler.updateData(id, data, callback);
 	};
 
 	fruitFactory.deleteData = function(id, priceids) {
@@ -103,17 +103,19 @@ var app = angular.module('dbsoria', ['ngAnimate'])
 		}
 
 		if(changeCount != 0) {
-			fruitFactory.updateData($scope.fruitstand.selectedFruit.id, $.extend(true, {}, submitted));
-			var index = $scope.fruitstand.selectedFruit.index;
-			for (var key in submitted) {
-				if(key == 'price' && submitted.priceChanged) {
-					$scope.fruitstand.fruits[index].price = submitted.price;
-					($scope.fruitstand.fruits[index].priceHistory).push({ price: submitted.price, dateUpdated: submitted.dateUpdated });
+			fruitFactory.updateData($scope.fruitstand.selectedFruit.id, $.extend(true, {}, submitted), function(data){
+				var index = $scope.fruitstand.selectedFruit.index;
+				for (var key in submitted) {
+					if(key == 'price' && submitted.priceChanged) {
+						$scope.fruitstand.fruits[index].price = submitted.price;
+						($scope.fruitstand.fruits[index].priceHistory).push({id: data, price: submitted.price, dateUpdated: submitted.dateUpdated });
+					}
+					else if (!(key == 'id' || key == 'dateAdded' || key == 'priceChanged' || key == 'dateUpdated')){
+						$scope.fruitstand.fruits[index][key] = submitted[key];
+					}
 				}
-				else if (!(key == 'id' || key == 'dateAdded' || key == 'priceChanged' || key == 'dateUpdated')){
-					$scope.fruitstand.fruits[index][key] = submitted[key];
-				}
-			}
+				$scope.$apply();
+			});
 		}
 
 		$scope.fruitstand.showNameEdit = false;
@@ -185,7 +187,6 @@ var app = angular.module('dbsoria', ['ngAnimate'])
 			$scope.fruitstand.adding.id = newIds.fruitid;
 			$scope.fruitstand.adding.priceHistory[0].id = newIds.priceid
 			var newFruit = $.extend(true, {}, $scope.fruitstand.adding);
-			console.log(newFruit);
 			$scope.fruitstand.fruits.push(newFruit);
 			$scope.fruitstand.adding = {};
 			$scope.$apply();

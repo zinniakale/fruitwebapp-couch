@@ -41,7 +41,7 @@ DBHandler.prototype = {
 				break;
 		}	
 	},
-	updateData: function(id, data) {
+	updateData: function(id, data, callback) {
 		switch(this.define.dbms) {
 			case 'mysql':
 
@@ -59,9 +59,10 @@ DBHandler.prototype = {
 						data: JSON.stringify(data)
 					},
 					success: function(data) {
-						console.log(data);
+						var result = JSON.parse(data);
+						if(data) callback(data);
 					}
-				})
+				});
 				break;
 		}		
 	},

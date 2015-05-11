@@ -136,8 +136,11 @@ switch($_POST['func']) {
 	case 'updateData':
 		$data = json_decode($_POST['data']);
 		$db->editFruit($data->id, $data->name, $data->price, $data->quantity, $data->distributor, $data->dateAdded);
-		if($data->priceChanged) $db->addFruitPrices($data->id, $data->price, $data->dateUpdated);
-		echo 1;
+		if($data->priceChanged) {
+			$priceid = $db->addFruitPrices($data->id, $data->price, $data->dateUpdated);
+			echo json_encode($priceid);
+		}
+		echo false;
 		break;
 	case 'deleteData':
 		$data = json_decode($_POST['data']);
